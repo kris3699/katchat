@@ -1,0 +1,269 @@
+let editingAnnId = null;
+
+async function openAnnouncements() {
+  showView('announcements');
+  const rolePerms = state.roles.find(r => r.name === state.user?.role)?.permissions || {};
+  document.getElementById('new-ann-btn').classList.toggle('hidden', !rolePerms.canCreateAnnouncements);
+
+  const container = document.getElementById('ann-container');
+  container.innerHTML = `<div class="empty-state"><i class="fa fa-spinner fa-spin"></i><p>Loading announcements...</p></div>`;
+
+  try {
+    const { announcements } = await api.getAnnouncements();
+    renderAnnouncements(announcements, container);
+  } catch (err) {
+    container.innerHTML = `<div class="empty-state"><i class="fa fa-circle-exclamation"></i><p>${esc(err.message)}</p></div>`;
+  }
+}
+
+function renderAnnouncements(announcements, container) {
+  container.innerHTML = '';
+  if (!announcements.length) {
+    container.innerHTML = `<div class="empty-state"><i class="fa fa-bullhorn"></i><p>No announcements yet</p></div>`;
+    return;
+  }
+  announcements.forEach(ann => container.appendChild(makeAnnCard(ann)));
+}
+
+function makeAnnCard(ann) {
+  const rolePerms = state.roles.find(r => r.name === state.user?.role)?.permissions || {};
+  const isAdmin = rolePerms.canCreateAnnouncements;
+  const canComment = rolePerms.canCommentAnnouncements && !state.user?.is_banned_from_global;
+  const author = ann.author || {};
+
+  const card = document.createElement('article');
+  card.className = `ann-card shimmer-load ${ann.pinned ? 'pinned' : ''}`;
+  card.dataset.annId = ann.id;
+
+  // Image section — clickable for full-view modal
+  const imageSection = ann.image ? `
+    <div class="ann-card-img-wrap" onclick="openAnnImageViewer('${ann.image.replace(/'/g, "\\'")}')" title="Click to view full image">
+      <img src="${ann.image}" class="ann-card-img" alt="Announcement image" loading="lazy" onerror="this.closest('.ann-card-img-wrap').remove()">
+      <div class="ann-img-overlay"><i class="fa fa-expand-alt"></i></div>
+    </div>` : '';
+
+  card.innerHTML = `
+    ${imageSection}
+    <div class="ann-card-body">
+      ${ann.pinned ? '<div class="ann-pin-badge"><i class="fa fa-thumbtack"></i> Pinned</div>' : ''}
+      <h2 class="ann-card-title">${esc(ann.title)}</h2>
+      <p class="ann-card-content">${esc(ann.content)}</p>
+      <div class="ann-card-footer">
+        <div class="ann-card-author">
+          ${author.profile_picture 
+            ? `<img src="${author.profile_picture}" class="ann-author-av" onerror="this.outerHTML='<div class=\\'ann-author-av-fallback\\'>${(author.display_name||'A')[0].toUpperCase()}</div>'">`
+            : `<div class="ann-author-av-fallback" style="background:${author.profile_color||'#555'}">${(author.display_name||'A')[0].toUpperCase()}</div>`
+          }
+          <div>
+            <span class="ann-author-name">${esc(author.display_name || 'Admin')} ${getRoleBadge(author.role || 'admin')}</span>
+            <span class="ann-card-date">${new Date(ann.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span>
+          </div>
+        </div>
+        ${isAdmin ? `<div class="ann-card-actions">
+          <button class="icon-btn" onclick="openAnnModal('${ann.id}')" title="Edit" aria-label="Edit announcement"><i class="fa fa-pen" aria-hidden="true"></i></button>
+          <button class="icon-btn" onclick="deleteAnn('${ann.id}')" title="Delete" style="color:var(--danger)" aria-label="Delete announcement"><i class="fa fa-trash" aria-hidden="true"></i></button>
+        </div>` : ''}
+      </div>
+      <!-- Comments Section -->
+      <div class="ann-comments-section">
+        <button class="ann-comments-toggle" onclick="toggleComments('${ann.id}', this)" aria-expanded="false">
+          <i class="fa fa-comment" aria-hidden="true"></i> <span class="comment-btn-label">Show comments</span>
+          <span class="comment-count-badge" id="cc-${ann.id}"></span>
+        </button>
+        <div class="ann-comments-body hidden" id="comments-${ann.id}">
+          <div class="comments-list" id="comments-list-${ann.id}">
+            <div class="comments-loading"><i class="fa fa-spinner fa-spin"></i></div>
+          </div>
+          ${canComment ? `
+          <div class="comment-input-row">
+            <div class="av xs" id="comment-av-${ann.id}" style="background:${state.user?.profile_color||'#555'};flex-shrink:0">${(state.user?.display_name||'?')[0].toUpperCase()}</div>
+            <div class="comment-input-wrap">
+              <input type="text" class="comment-input" id="ci-${ann.id}" placeholder="Write a comment..." onkeydown="commentKey(event,'${ann.id}')">
+              <button class="comment-send-btn" onclick="submitComment('${ann.id}')" aria-label="Send comment"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+            </div>
+          </div>` : `<p class="comment-banned-note"><i class="fa fa-lock"></i> ${state.user?.is_banned_from_global ? 'Banned users cannot comment.' : 'You cannot comment.'}</p>`}
+        </div>
+      </div>
+    </div>`;
+  return card;
+}
+
+// Open announcement image in a full-screen modal viewer
+function openAnnImageViewer(src) {
+  // Create modal overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'ann-img-viewer';
+  overlay.onclick = (e) => { if (e.target === overlay || e.target.classList.contains('ann-img-viewer-close')) overlay.remove(); };
+
+  overlay.innerHTML = `
+    <div class="ann-img-viewer-inner">
+      <button class="ann-img-viewer-close" title="Close"><i class="fa fa-times"></i></button>
+      <img src="${src}" class="ann-img-viewer-img" alt="Announcement image" onclick="event.stopPropagation()">
+      <div class="ann-img-viewer-actions">
+        <a href="${src}" target="_blank" class="ann-img-viewer-link" onclick="event.stopPropagation()">
+          <i class="fa fa-external-link-alt"></i> Open full size
+        </a>
+      </div>
+    </div>`;
+  
+  document.body.appendChild(overlay);
+  
+  // Close on Escape key
+  const escHandler = (e) => { if (e.key === 'Escape') { overlay.remove(); document.removeEventListener('keydown', escHandler); } };
+  document.addEventListener('keydown', escHandler);
+}
+window.openAnnImageViewer = openAnnImageViewer;
+
+async function toggleComments(annId, btn) {
+  const body = document.getElementById(`comments-${annId}`);
+  const isOpen = !body.classList.contains('hidden');
+  const label = btn.querySelector('.comment-btn-label');
+  if (isOpen) {
+    body.classList.add('hidden');
+    btn.setAttribute('aria-expanded', 'false');
+    label.textContent = 'Show comments';
+    return;
+  }
+  body.classList.remove('hidden');
+  btn.setAttribute('aria-expanded', 'true');
+  label.textContent = 'Hide comments';
+  await loadComments(annId);
+}
+
+async function loadComments(annId) {
+  const list = document.getElementById(`comments-list-${annId}`);
+  list.innerHTML = '<div class="comments-loading"><i class="fa fa-spinner fa-spin"></i></div>';
+  try {
+    const { comments } = await api.getComments(annId);
+    const countBadge = document.getElementById(`cc-${annId}`);
+    if (countBadge) countBadge.textContent = comments.length ? comments.length : '';
+    renderComments(comments, list, annId);
+  } catch (err) {
+    list.innerHTML = `<p style="color:var(--danger);font-size:12px;padding:8px">${esc(err.message)}</p>`;
+  }
+}
+
+function renderComments(comments, list, annId) {
+  list.innerHTML = '';
+  if (!comments.length) {
+    list.innerHTML = `<p class="no-comments">No comments yet. Be the first!</p>`;
+    return;
+  }
+  comments.forEach(c => list.appendChild(makeCommentEl(c, annId)));
+}
+
+function makeCommentEl(comment, annId) {
+  const isOwn = comment.author_id === state.user?.id;
+  const canDelete = isOwn || state.roles.find(r => r.name === state.user?.role)?.permissions?.canDeleteMessages;
+  const author = comment.author || {};
+  const el = document.createElement('div');
+  el.className = 'comment-item';
+  el.dataset.commentId = comment.id;
+  const av = makeAvEl(author, 'xs');
+  el.innerHTML = `
+    ${av.outerHTML}
+    <div class="comment-body">
+      <div class="comment-header">
+        <span class="comment-author">${esc(author.display_name)} ${getRoleBadge(author.role)}</span>
+        <span class="comment-time">${fmtTime(comment.created_at)}</span>
+        ${canDelete ? `<button class="comment-del-btn" onclick="deleteComment('${annId}','${comment.id}')" title="Delete" aria-label="Delete comment"><i class="fa fa-trash" aria-hidden="true"></i></button>` : ''}
+      </div>
+      <p class="comment-text">${esc(comment.content)}</p>
+    </div>`;
+  return el;
+}
+
+function commentKey(e, annId) {
+  if (e.key === 'Enter') { e.preventDefault(); submitComment(annId); }
+}
+
+async function submitComment(annId) {
+  const input = document.getElementById(`ci-${annId}`);
+  const content = input?.value.trim();
+  if (!content) return;
+  input.value = '';
+  try {
+    const { comment } = await api.postComment(annId, content);
+    const list = document.getElementById(`comments-list-${annId}`);
+    const noComments = list.querySelector('.no-comments');
+    if (noComments) noComments.remove();
+    list.appendChild(makeCommentEl(comment, annId));
+    // Update count badge
+    const badge = document.getElementById(`cc-${annId}`);
+    if (badge) {
+      const current = parseInt(badge.textContent) || 0;
+      badge.textContent = current + 1;
+    }
+    list.scrollTop = list.scrollHeight;
+  } catch (err) { showToast(err.message, 'error'); }
+}
+
+async function deleteComment(annId, commentId) {
+  showConfirm('Delete Comment', 'Remove this comment?', async () => {
+    try {
+      await api.deleteComment(annId, commentId);
+      document.querySelector(`[data-comment-id="${commentId}"]`)?.remove();
+      const badge = document.getElementById(`cc-${annId}`);
+      if (badge) { const c = parseInt(badge.textContent) || 1; badge.textContent = c > 1 ? c - 1 : ''; }
+      showToast('Comment deleted', 'info');
+    } catch (err) { showToast(err.message, 'error'); }
+  });
+}
+
+async function openAnnModal(annId) {
+  editingAnnId = annId;
+  document.getElementById('ann-img-preview-wrap').classList.add('hidden');
+  document.getElementById('ann-img-input').value = '';
+  if (annId) {
+    document.getElementById('ann-modal-title').innerHTML = '<i class="fa fa-pen"></i> Edit Announcement';
+    document.getElementById('ann-submit-label').textContent = 'Save Changes';
+    try {
+      const { announcements } = await api.getAnnouncements();
+      const ann = announcements.find(a => a.id === annId);
+      if (ann) {
+        document.getElementById('ann-title').value = ann.title;
+        document.getElementById('ann-content').value = ann.content;
+        document.getElementById('ann-pinned').checked = ann.pinned;
+        if (ann.image) { document.getElementById('ann-img-preview').src = ann.image; document.getElementById('ann-img-preview-wrap').classList.remove('hidden'); }
+      }
+    } catch {}
+  } else {
+    document.getElementById('ann-modal-title').innerHTML = '<i class="fa fa-bullhorn"></i> New Announcement';
+    document.getElementById('ann-submit-label').textContent = 'Post Announcement';
+    document.getElementById('ann-title').value = '';
+    document.getElementById('ann-content').value = '';
+    document.getElementById('ann-pinned').checked = false;
+  }
+  openModal('m-ann');
+}
+
+function previewAnnImg(input) {
+  if (!input.files[0]) return;
+  const url = URL.createObjectURL(input.files[0]);
+  document.getElementById('ann-img-preview').src = url;
+  document.getElementById('ann-img-preview-wrap').classList.remove('hidden');
+}
+
+async function submitAnnouncement() {
+  const title = document.getElementById('ann-title').value.trim();
+  const content = document.getElementById('ann-content').value.trim();
+  const pinned = document.getElementById('ann-pinned').checked;
+  const imgFile = document.getElementById('ann-img-input').files[0];
+  if (!title || !content) { showToast('Title and content are required', 'error'); return; }
+  const fd = new FormData();
+  fd.append('title', title); fd.append('content', content); fd.append('pinned', pinned);
+  if (imgFile) fd.append('image', imgFile);
+  try {
+    if (editingAnnId) { await api.updateAnnouncement(editingAnnId, fd); showToast('Announcement updated!', 'success'); }
+    else { await api.createAnnouncement(fd); showToast('Announcement posted!', 'success'); }
+    closeModal();
+    await openAnnouncements();
+  } catch (err) { showToast(err.message, 'error'); }
+}
+
+async function deleteAnn(annId) {
+  showConfirm('Delete Announcement', 'This cannot be undone.', async () => {
+    try { await api.deleteAnnouncement(annId); document.querySelector(`[data-ann-id="${annId}"]`)?.remove(); showToast('Deleted', 'info'); }
+    catch (err) { showToast(err.message, 'error'); }
+  });
+}

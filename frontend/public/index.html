@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <!-- ── Character Set & Viewport ───────────────────────────── -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <!-- ── Primary SEO ───────────────────────────────────────── -->
+  <title>KatChat — Premium Real-Time Chat App</title>
+  <meta name="description" content="KatChat is a premium, real-time messaging platform with private chats, global conversations, AI assistant Sage, announcements, and a powerful role system. Fast, minimal, and beautifully designed.">
+  <meta name="keywords" content="KatChat, real-time chat, messaging app, AI chatbot, Sage AI, group chat, private messaging, modern chat">
+  <meta name="author" content="KatChat">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0a0a0a" id="theme-color-meta">
+
+  <!-- ── Canonical URL (update to your domain) ──────────────── -->
+  <link rel="canonical" href="https://katchat.app/">
+
+  <!-- ── Open Graph (Facebook, Discord, LinkedIn) ───────────── -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="KatChat">
+  <meta property="og:title" content="KatChat — Premium Real-Time Chat">
+  <meta property="og:description" content="A premium, real-time messaging platform with AI assistant Sage, private chats, global room, and beautiful design.">
+  <meta property="og:image" content="https://katchat.app/assets/logo.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://katchat.app/">
+  <meta property="og:locale" content="en_US">
+
+  <!-- ── Twitter Card ───────────────────────────────────────── -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@katchat">
+  <meta name="twitter:creator" content="@katchat">
+  <meta name="twitter:title" content="KatChat — Premium Real-Time Chat">
+  <meta name="twitter:description" content="A premium, real-time messaging platform with AI assistant Sage, private chats, global room, and beautiful design.">
+  <meta name="twitter:image" content="https://katchat.app/assets/logo.png">
+
+  <!-- ── Favicons (replace image files in /assets/favicons/) ── -->
+  <link rel="icon" href="assets/favicons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/favicons/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/favicons/android-chrome-512x512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png">
+  <link rel="manifest" href="assets/favicons/site.webmanifest">
+  <meta name="msapplication-TileColor" content="#22c55e">
+
+  <!-- ── Preconnect for performance ─────────────────────────── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
+  <!-- ── Fonts (display=swap prevents FOIT) ─────────────────── -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+
+  <!-- ── Font Awesome (non-blocking via preload) ────────────── -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+
+  <!-- ── App Styles ─────────────────────────────────────────── -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/mobile.css">
+
+  <!-- ── Structured Data (JSON-LD) ──────────────────────────── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "KatChat",
+    "url": "https://katchat.app/",
+    "description": "A premium real-time messaging platform with AI assistant, private chats, global room, and role management.",
+    "applicationCategory": "CommunicationApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "featureList": ["Real-time messaging", "AI chatbot Sage", "Global chat", "Private messaging", "Role management", "Announcements"]
+  }
+  </script>
+</head>
+<body>
+<!-- ── Skip to content (accessibility) ────────────────────── -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- ── INTRO ─────────────────────────────────────────────── -->
+<div id="intro-screen" role="status" aria-label="KatChat loading" aria-live="polite">
+  <div class="intro-bg"></div>
+  <div class="intro-particles" id="intro-particles"></div>
+  <div class="intro-content">
+    <div class="intro-logo-wrap">
+      <div class="intro-ring r1"></div>
+      <div class="intro-ring r2"></div>
+      <div class="intro-ring r3"></div>
+      <img src="assets/logo.png" class="intro-logo" alt="KatChat">
+    </div>
+    <div class="intro-text">
+      <span class="intro-name">KatChat</span>
+      <span class="intro-tag">Where conversations come alive</span>
+    </div>
+    <div class="intro-bar"><div class="intro-fill"></div></div>
+  </div>
+</div>
+
+<!-- ── AUTH ──────────────────────────────────────────────── -->
+<div id="auth-page" class="page hidden" role="main">
+  <div class="auth-bg" aria-hidden="true">
+    <div class="auth-grid"></div>
+    <div class="auth-orb orb1"></div>
+    <div class="auth-orb orb2"></div>
+  </div>
+  <div class="auth-wrap">
+    <header class="auth-brand">
+      <img src="assets/logo.png" class="auth-logo" alt="KatChat logo" width="44" height="44">
+      <span class="auth-brand-name">KatChat</span>
+    </header>
+    <!-- LOGIN -->
+    <section id="login-card" class="auth-card" aria-labelledby="login-h">
+      <h1 class="auth-title" id="login-h">Welcome back</h1>
+      <p class="auth-sub">Sign in to continue chatting</p>
+      <div id="login-err" class="auth-err hidden" role="alert" aria-live="assertive"></div>
+      <div class="login-warning" style="background:#fef3c7;border:1px solid #fcd34d;border-radius:8px;padding:12px;margin-bottom:16px;font-size:13px;color:#92400e;line-height:1.5">
+        <i class="fa fa-circle-info" style="margin-right:6px"></i> <strong>Forgot your password?</strong> Contact the owner/admin at <strong>chandkris27@gmail.com</strong>
+      </div>
+      <div class="form-group">
+        <label for="l-email">Email address</label>
+        <div class="field-wrap"><i class="fa fa-envelope" aria-hidden="true"></i><input type="email" id="l-email" name="email" placeholder="you@example.com" autocomplete="email" required></div>
+      </div>
+      <div class="form-group">
+        <label for="l-pass">Password</label>
+        <div class="field-wrap"><i class="fa fa-lock" aria-hidden="true"></i><input type="password" id="l-pass" name="password" placeholder="Your password" autocomplete="current-password" required><button class="eye-btn" onclick="toggleEye('l-pass',this)" aria-label="Toggle password visibility" type="button"><i class="fa fa-eye" aria-hidden="true"></i></button></div>
+      </div>
+      <button class="btn-primary full" id="login-btn" onclick="handleLogin()" type="button"><span>Sign In</span><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+      <p class="auth-switch">Don't have an account? <a onclick="showSignup()" role="button" tabindex="0">Create one</a></p>
+    </section>
+    <!-- SIGNUP -->
+    <section id="signup-card" class="auth-card hidden" aria-labelledby="signup-h">
+      <h1 class="auth-title" id="signup-h">Create account</h1>
+      <p class="auth-sub">Join KatChat today</p>
+      <div id="signup-err" class="auth-err hidden" role="alert" aria-live="assertive"></div>
+      <div class="form-row">
+        <div class="form-group"><label for="s-name">Display Name</label><div class="field-wrap"><i class="fa fa-user" aria-hidden="true"></i><input type="text" id="s-name" name="displayName" placeholder="Your name" autocomplete="name" required></div></div>
+        <div class="form-group"><label for="s-username">Username</label><div class="field-wrap"><i class="fa fa-at" aria-hidden="true"></i><input type="text" id="s-username" name="username" placeholder="lowercase_only" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9_]/g,'')" autocomplete="username" required pattern="[a-z0-9_]{3,20}" title="3–20 lowercase letters, numbers, or underscores"></div></div>
+      </div>
+      <div class="form-group"><label for="s-email">Email address</label><div class="field-wrap"><i class="fa fa-envelope" aria-hidden="true"></i><input type="email" id="s-email" name="email" placeholder="you@example.com" autocomplete="email" required></div></div>
+      <div class="form-group"><label for="s-pass">Password</label><div class="field-wrap"><i class="fa fa-lock" aria-hidden="true"></i><input type="password" id="s-pass" name="password" placeholder="Min. 8 characters" autocomplete="new-password" required minlength="8"><button class="eye-btn" onclick="toggleEye('s-pass',this)" aria-label="Toggle password visibility" type="button"><i class="fa fa-eye" aria-hidden="true"></i></button></div></div>
+      <fieldset class="form-group" style="border:none;padding:0">
+        <legend style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--txt2);margin-bottom:6px">Gender</legend>
+        <div class="gender-grid">
+          <label class="g-opt"><input type="radio" name="gender" value="male" required><span><i class="fa fa-mars" aria-hidden="true"></i> Male</span></label>
+          <label class="g-opt"><input type="radio" name="gender" value="female"><span><i class="fa fa-venus" aria-hidden="true"></i> Female</span></label>
+          <label class="g-opt"><input type="radio" name="gender" value="non-binary"><span><i class="fa fa-genderless" aria-hidden="true"></i> Non-binary</span></label>
+          <label class="g-opt"><input type="radio" name="gender" value="prefer-not-to-say"><span><i class="fa fa-minus" aria-hidden="true"></i> Prefer not to say</span></label>
+        </div>
+      </fieldset>
+      <button class="btn-primary full" id="signup-btn" onclick="handleSignup()" type="button"><span>Create Account</span><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+      <p class="auth-switch">Already have an account? <a onclick="showLogin()" role="button" tabindex="0">Sign in</a></p>
+    </section>
+    <!-- CHANGE PASSWORD (forced after reset) -->
+    <section id="v-change-password" class="auth-card hidden" aria-labelledby="change-pass-h">
+      <h1 class="auth-title" id="change-pass-h">🔐 Set New Password</h1>
+      <p class="auth-sub" style="color:var(--txt3)">Hello <strong id="change-pass-display-name">User</strong>, your password was reset by the admin. Please set a new password.</p>
+      <div id="change-pass-err" class="auth-err hidden" role="alert" aria-live="assertive"></div>
+      <div class="form-group">
+        <label for="new-password-input">New Password</label>
+        <div class="field-wrap">
+          <i class="fa fa-lock" aria-hidden="true"></i>
+          <input type="password" id="new-password-input" placeholder="Min. 8 characters" minlength="8" required>
+          <button class="eye-btn" onclick="toggleEye('new-password-input',this)" aria-label="Toggle password visibility" type="button"><i class="fa fa-eye" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="confirm-password-input">Confirm Password</label>
+        <div class="field-wrap">
+          <i class="fa fa-lock" aria-hidden="true"></i>
+          <input type="password" id="confirm-password-input" placeholder="Re-enter your password" required>
+          <button class="eye-btn" onclick="toggleEye('confirm-password-input',this)" aria-label="Toggle password visibility" type="button"><i class="fa fa-eye" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <button class="btn-primary full" id="change-pass-btn" onclick="submitChangePassword()" type="button"><span>Set New Password</span><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+      <p style="font-size:11px;color:var(--txt3);text-align:center;margin-top:12px">Your session will be blocked until you set a new password.</p>
+    </section>
+  </div>
+</div>
+
+<!-- ── MAIN APP ───────────────────────────────────────────── -->
+<div id="app" class="hidden" role="application" aria-label="KatChat Application">
+
+  <!-- TOPBAR -->
+  <header class="topbar" id="topbar" role="banner">
+    <div class="topbar-left">
+      <img src="assets/logo.png" class="topbar-logo" alt="KatChat logo" width="30" height="30">
+      <div class="topbar-left-text">
+        <span class="topbar-name">KatChat</span>
+        <span class="topbar-slogan">Your space, Your conversations</span>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="icon-btn pos-rel" id="add-friend-btn" onclick="openAddFriend()" title="Add Friend">
+        <i class="fa fa-user-plus"></i>
+        <span class="notif-dot hidden" id="req-dot"></span>
+      </button>
+      <button class="sage-btn" onclick="openSage()" title="Chat with Sage">
+        <img src="assets/sage-logo.png" class="sage-btn-icon rotating" alt="Sage">
+        <span class="sage-btn-label">Sage</span>
+      </button>
+      <div class="topbar-av" id="topbar-zav" onclick="openSettings()"></div>
+    </div>
+  </header>
+  <div id="topbar-beam" aria-hidden="true"></div>
+
+  <!-- APP BODY -->
+  <div class="app-body" id="app-body">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-search">
+        <i class="fa fa-search"></i>
+        <input type="text" id="sidebar-search-inp" placeholder="Search chats..." oninput="filterChats(this.value)">
+        <button class="clear-search hidden" id="clear-search" onclick="clearSearch()"><i class="fa fa-times"></i></button>
+      </div>
+      <div class="sidebar-tabs">
+        <button class="stab active" data-tab="chats" onclick="switchTab('chats',this)">Chats</button>
+        <button class="stab" data-tab="friends" onclick="switchTab('friends',this)">Friends</button>
+      </div>
+      <div id="tab-chats" class="tab-content">
+        <div class="sidebar-quick">
+          <button class="quick-btn accent" onclick="navTo('global')"><i class="fa fa-globe"></i><span>Global</span></button>
+          <button class="quick-btn" onclick="navTo('announcements')"><i class="fa fa-bullhorn"></i><span>Posts</span></button>
+        </div>
+        <div id="chat-list"></div>
+      </div>
+      <div id="tab-friends" class="tab-content hidden">
+        <div id="friends-list"></div>
+      </div>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <main class="main-area" id="main-content" role="main" aria-label="Chat Area" aria-live="polite">
+
+      <!-- WELCOME -->
+      <div id="v-welcome" class="view active">
+        <div class="welcome-wrap">
+          <img src="assets/logo.png" class="welcome-logo" alt="">
+          <h2 class="welcome-title">Welcome to KatChat</h2>
+          <p class="welcome-sub">Select a conversation or explore the global chat.</p>
+          <div class="welcome-actions">
+            <button class="btn-secondary" onclick="navTo('global')"><i class="fa fa-globe"></i> Global Chat</button>
+            <button class="btn-secondary" onclick="navTo('announcements')"><i class="fa fa-bullhorn"></i> Announcements</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRIVATE CHAT -->
+      <div id="v-chat" class="view hidden">
+        <div class="chat-header" id="chat-header">
+          <button class="back-btn" onclick="goBack()"><i class="fa fa-arrow-left"></i></button>
+          <div class="ch-av-wrap">
+            <div class="av md" id="ch-avatar"></div>
+            <span class="ch-online-dot hidden" id="ch-online-dot"></span>
+          </div>
+          <div class="ch-info">
+            <span class="ch-name" id="ch-name"></span>
+            <span class="ch-status" id="ch-status"></span>
+          </div>
+          <div class="ch-actions">
+            <button class="icon-btn" onclick="openProfile(window.activeFriend)" title="Profile"><i class="fa fa-user"></i></button>
+          </div>
+        </div>
+        <div class="msgs-wrap" id="priv-msgs" data-swipe-container="true"></div>
+        <div class="typing-bar hidden" id="typing-bar">
+          <div class="av xs" id="typing-av"></div>
+          <div class="typing-dots"><span></span><span></span><span></span></div>
+        </div>
+        <div class="reply-preview hidden" id="priv-reply-preview">
+          <div class="rp-left"><i class="fa fa-reply"></i><div><span class="rp-name" id="priv-reply-name"></span><span class="rp-text" id="priv-reply-text"></span></div></div>
+          <button onclick="cancelReply()"><i class="fa fa-times"></i></button>
+        </div>
+        <div class="img-previews hidden" id="img-previews"></div>
+        <div class="input-bar">
+          <button class="icon-btn" onclick="document.getElementById('img-input').click()" title="Images"><i class="fa fa-image"></i></button>
+          <input type="file" id="img-input" multiple accept="image/*" onchange="handleImgSelect(this)" hidden>
+          <div class="input-grow">
+            <textarea id="priv-input" placeholder="Message..." rows="1" onkeydown="privKey(event)" oninput="privInput(this)"></textarea>
+          </div>
+          <button class="send-btn" onclick="sendPrivate()" id="priv-send-btn"><i class="fa fa-paper-plane"></i></button>
+        </div>
+      </div>
+
+      <!-- GLOBAL CHAT -->
+      <div id="v-global" class="view hidden">
+        <div class="chat-header">
+          <button class="back-btn" onclick="goBack()"><i class="fa fa-arrow-left"></i></button>
+          <div class="global-icon"><i class="fa fa-globe"></i></div>
+          <div class="ch-info">
+            <span class="ch-name">Global Chat</span>
+            <span class="ch-status" id="global-status">Loading... <span class="online-count-badge" id="global-online-count">0</span></span>
+          </div>
+        </div>
+        <div class="msgs-wrap" id="global-msgs" data-swipe-container="true"></div>
+        <div class="mention-dropdown hidden" id="mention-dropdown"></div>
+        <div class="reply-preview hidden" id="global-reply-preview">
+          <div class="rp-left"><i class="fa fa-reply"></i><div><span class="rp-name" id="global-reply-name"></span><span class="rp-text" id="global-reply-text"></span></div></div>
+          <button onclick="cancelGlobalReply()"><i class="fa fa-times"></i></button>
+        </div>
+        <div id="global-input-area">
+          <div class="input-bar">
+            <div class="input-grow">
+              <textarea id="global-input" placeholder="Message everyone... (@mention, /command)" rows="1" onkeydown="globalKey(event)" oninput="globalInput(this)"></textarea>
+            </div>
+            <button class="send-btn" onclick="sendGlobal()"><i class="fa fa-paper-plane"></i></button>
+          </div>
+        </div>
+        <div class="banned-bar hidden" id="banned-bar"><i class="fa fa-ban"></i> You are banned from global chat</div>
+      </div>
+
+      <!-- ANNOUNCEMENTS -->
+      <div id="v-announcements" class="view hidden">
+        <div class="chat-header">
+          <button class="back-btn" onclick="goBack()"><i class="fa fa-arrow-left"></i></button>
+          <div class="global-icon"><i class="fa fa-bullhorn"></i></div>
+          <div class="ch-info"><span class="ch-name">Announcements</span></div>
+          <button class="icon-btn hidden" id="new-ann-btn" onclick="openAnnModal(null)" title="New Announcement"><i class="fa fa-plus"></i></button>
+        </div>
+        <div class="ann-container" id="ann-container"></div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div id="v-settings" class="view hidden">
+        <div class="chat-header">
+          <button class="back-btn" onclick="goBack()"><i class="fa fa-arrow-left"></i></button>
+          <span class="ch-name">Settings</span>
+        </div>
+        <div class="settings-scroll">
+          <div class="settings-hero">
+            <div class="settings-av-wrap">
+              <div class="av xl" id="settings-av" onclick="document.getElementById('av-upload').click()"></div>
+              <div class="av-edit-overlay" onclick="document.getElementById('av-upload').click()"><i class="fa fa-camera"></i></div>
+              <input type="file" id="av-upload" accept="image/*" onchange="handleAvatarUpload(this)" hidden>
+            </div>
+            <div class="settings-hero-info">
+              <span class="sh-name" id="sh-name"></span>
+              <span class="sh-username" id="sh-username"></span>
+              <span id="sh-role-badge"></span>
+              <span class="sh-pronouns" id="sh-pronouns"></span>
+            </div>
+          </div>
+          <div class="settings-sections">
+            <div class="settings-card">
+              <h3><i class="fa fa-user"></i> Profile</h3>
+              <div class="form-group"><label>Display Name</label><div class="field-wrap"><input type="text" id="set-name" placeholder="Your display name"></div></div>
+              <div class="form-group"><label>Gender</label>
+                <select id="set-gender" class="field-select">
+                  <option value="male">Male (he/him)</option>
+                  <option value="female">Female (she/her)</option>
+                  <option value="non-binary">Non-binary (they/them)</option>
+                  <option value="prefer-not-to-say">Prefer not to say (they/them)</option>
+                </select>
+              </div>
+              <button class="btn-secondary" onclick="saveProfile()"><i class="fa fa-save"></i> Save Profile</button>
+            </div>
+            <div class="settings-card">
+              <h3><i class="fa fa-lock"></i> Security</h3>
+              <div class="form-group"><label>Current Password</label><div class="field-wrap"><input type="password" id="set-curr-pw" placeholder="Current password"></div></div>
+              <div class="form-group"><label>New Password</label><div class="field-wrap"><input type="password" id="set-new-pw" placeholder="New password (min 8 chars)"></div></div>
+              <button class="btn-secondary" onclick="changePassword()"><i class="fa fa-key"></i> Change Password</button>
+            </div>
+            <div class="settings-card">
+              <h3><i class="fa fa-palette"></i> Appearance</h3>
+              <div class="theme-row">
+                <span>Theme</span>
+                <div class="theme-toggle" onclick="toggleTheme()" id="theme-toggle">
+                  <div class="theme-knob"></div>
+                  <i class="fa fa-moon t-left"></i>
+                  <i class="fa fa-sun t-right"></i>
+                </div>
+              </div>
+            </div>
+            <div class="settings-card hidden" id="admin-card">
+              <h3><i class="fa fa-shield-halved"></i> Administration</h3>
+              <button class="btn-secondary" onclick="navTo('admin')"><i class="fa fa-cog"></i> Open Admin Panel</button>
+            </div>
+            <div class="settings-card about-card">
+              <h3><i class="fa fa-circle-info" aria-hidden="true"></i> About KatChat</h3>
+              <p class="about-text">KatChat is a premium real-time messaging platform. Built for speed, privacy, and beautiful design.</p>
+              <button class="about-read-more" onclick="toggleAbout(this)" aria-expanded="false">
+                <i class="fa fa-chevron-down" aria-hidden="true"></i> Read more
+              </button>
+              <div class="about-text-full" aria-hidden="true">
+                <p class="about-text" style="margin-top:10px">KatChat offers private messaging, a global chat room, AI assistant Sage, custom roles, announcements with comments, and a powerful admin panel — all in a beautifully minimal design.</p>
+                <p class="about-text" style="margin-top:8px"><strong>Forgot your password?</strong> Contact an admin or the owner through <a href="mailto:chandkris27@gmail.com" style="color:var(--accent)">chandkris27@gmail.com</a> to reset it via the Admin Panel.</p>
+                <p class="about-text" style="margin-top:8px;color:var(--txt3)">KatChat is built with Node.js, Supabase &amp; Socket.io · Version 2.0</p>
+              </div>
+            </div>
+            <div class="settings-card danger-card">
+              <h3><i class="fa fa-right-from-bracket"></i> Account</h3>
+              <button class="btn-danger" onclick="confirmLogout()"><i class="fa fa-right-from-bracket"></i> Sign Out</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN PANEL -->
+      <div id="v-admin" class="view hidden">
+        <div class="chat-header">
+          <button class="back-btn" onclick="goBack()"><i class="fa fa-arrow-left"></i></button>
+          <span class="ch-name"><i class="fa fa-shield-halved" style="color:var(--cyan)"></i> Admin Panel</span>
+        </div>
+        <div class="admin-wrap">
+          <div class="admin-tabs">
+            <button class="stab active" onclick="adminTab('users',this)"><i class="fa fa-users"></i> Users</button>
+            <button class="stab" onclick="adminTab('roles',this)"><i class="fa fa-tag"></i> Roles</button>
+            <button class="stab" onclick="adminTab('bans',this)"><i class="fa fa-ban"></i> Bans</button>
+            <button class="stab" onclick="adminTab('posts',this)"><i class="fa fa-bullhorn"></i> Posts</button>
+          </div>
+          <div id="at-users" class="admin-panel-section">
+            <div class="admin-search"><input type="text" placeholder="Search users..." oninput="filterAdminUsers(this.value)" class="field-input"></div>
+            <div id="admin-users-list"></div>
+          </div>
+          <div id="at-roles" class="admin-panel-section hidden">
+            <button class="btn-secondary mb-12" onclick="openRoleModal(null)"><i class="fa fa-plus"></i> Create Role</button>
+            <div id="admin-roles-list"></div>
+          </div>
+          <div id="at-bans" class="admin-panel-section hidden"><div id="admin-bans-list"></div></div>
+          <div id="at-posts" class="admin-panel-section hidden">
+            <button class="btn-secondary mb-12" onclick="openAnnModal(null)"><i class="fa fa-plus"></i> New Announcement</button>
+            <div id="admin-posts-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SAGE AI -->
+      <div id="v-sage" class="view hidden">
+        <div class="sage-layout">
+          <!-- Side panel: chat history -->
+          <div class="sage-side-panel" id="sage-side-panel">
+            <div class="sage-panel-header">
+              <span><i class="fa fa-clock-rotate-left"></i> Chat History</span>
+              <button class="sage-new-chat-btn" onclick="newSageChat()" title="New Chat"><i class="fa fa-plus"></i> New</button>
+            </div>
+            <div class="sage-chat-list" id="sage-chat-list"></div>
+            <button class="sage-clear-all-btn" onclick="clearSageHistory()"><i class="fa fa-trash"></i> Clear All Chats</button>
+          </div>
+          <!-- Main chat area -->
+          <div class="sage-main">
+            <div class="chat-header">
+              <button class="back-btn" onclick="goBack()"><i class="fa fa-arrow-left"></i></button>
+              <button class="icon-btn sage-history-toggle" onclick="toggleSagePanel()" title="Chat History"><i class="fa fa-sidebar"></i></button>
+              <img src="assets/sage-logo.png" class="sage-header-icon rotating" alt="Sage">
+              <div class="ch-info">
+                <span class="ch-name">Sage</span>
+                <span class="ch-status" id="sage-status">AI Assistant</span>
+              </div>
+              <button class="icon-btn" onclick="newSageChat()" title="New Chat"><i class="fa fa-plus"></i></button>
+            </div>
+            <div class="msgs-wrap" id="sage-msgs">
+              <div class="sage-welcome" id="sage-welcome">
+                <img src="assets/sage-logo.png" class="sage-welcome-icon rotating" alt="">
+                <h3>Hey, I'm Sage 👋</h3>
+                <p>Your bold, witty, and actually helpful AI companion. Ask me anything — no boring answers, I promise.</p>
+                <div class="sage-chips">
+                  <button class="sage-chip" onclick="insertSagePrompt('Tell me everything about Kat Chat')"><i class="fa fa-info-circle"></i> About Kat-Chat</button>
+                  <button class="sage-chip" onclick="document.getElementById('sage-img-input').click()"><i class="fa fa-image"></i> Analyze image</button>
+                  <button class="sage-chip" onclick="insertSagePrompt('Tell me something interesting')"><i class="fa fa-lightbulb"></i> Inspire me</button>
+                </div>
+              </div>
+            </div>
+            <div class="sage-img-preview hidden" id="sage-img-preview">
+              <div class="sip-inner">
+                <img id="sage-preview-img" src="" alt="">
+                <button onclick="clearSageImg()"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <div class="input-bar">
+              <button class="icon-btn" onclick="document.getElementById('sage-img-input').click()" title="Analyze Image"><i class="fa fa-image"></i></button>
+              <input type="file" id="sage-img-input" accept="image/*" onchange="handleSageImg(this)" hidden>
+              <div class="input-grow">
+                <textarea id="sage-input" placeholder="Ask Sage anything..." rows="1" onkeydown="sageKey(event)" oninput="autoResize(this)"></textarea>
+              </div>
+              <button class="send-btn" onclick="sendSage()"><i class="fa fa-paper-plane"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav" id="bottom-nav">
+    <button class="nav-btn active" data-nav="home" onclick="navTo('home')"><i class="fa fa-house"></i><span>Home</span></button>
+    <button class="nav-btn" data-nav="global" onclick="navTo('global')"><i class="fa fa-globe"></i><span>Global</span></button>
+    <button class="nav-btn" data-nav="announcements" onclick="navTo('announcements')"><i class="fa fa-bullhorn"></i><span>Posts</span></button>
+    <button class="nav-btn" data-nav="settings" onclick="navTo('settings')"><i class="fa fa-gear"></i><span>Settings</span></button>
+  </nav>
+</div>
+
+<!-- ── MODALS ─────────────────────────────────────────────── -->
+<div id="overlay" class="overlay hidden" onclick="overlayClick(event)">
+
+  <!-- Add Friend -->
+  <div id="m-friend" class="modal hidden">
+    <div class="modal-head"><h2><i class="fa fa-user-plus"></i> Find Friends</h2><button class="modal-x" onclick="closeModal()"><i class="fa fa-xmark"></i></button></div>
+    <div class="modal-body">
+      <div class="modal-search"><i class="fa fa-search"></i><input type="text" id="friend-search-inp" placeholder="Search username or name..." oninput="searchUsers(this.value)"></div>
+      <div id="search-results"></div>
+      <div class="pending-section">
+        <h4 class="section-label">Pending Requests</h4>
+        <div id="pending-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile -->
+  <div id="m-profile" class="modal hidden">
+    <div class="modal-head"><h2>Profile</h2><button class="modal-x" onclick="closeModal()"><i class="fa fa-xmark"></i></button></div>
+    <div class="modal-body" id="profile-modal-body"></div>
+  </div>
+
+  <!-- Announcement -->
+  <div id="m-ann" class="modal hidden">
+    <div class="modal-head"><h2 id="ann-modal-title"><i class="fa fa-bullhorn"></i> New Announcement</h2><button class="modal-x" onclick="closeModal()"><i class="fa fa-xmark"></i></button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Title</label><div class="field-wrap"><input type="text" id="ann-title" placeholder="Announcement title"></div></div>
+      <div class="form-group"><label>Content</label><textarea id="ann-content" class="field-textarea" placeholder="Write your announcement..." rows="5"></textarea></div>
+      <div class="form-group"><label>Image (optional)</label><input type="file" id="ann-img-input" accept="image/*" class="file-input" onchange="previewAnnImg(this)"></div>
+      <div id="ann-img-preview-wrap" class="hidden"><img id="ann-img-preview" src="" style="max-width:100%;border-radius:10px;margin-bottom:10px"></div>
+      <label class="checkbox-row"><input type="checkbox" id="ann-pinned"> <span>Pin this announcement</span></label>
+      <button class="btn-primary full mt-12" onclick="submitAnnouncement()"><i class="fa fa-bullhorn"></i> <span id="ann-submit-label">Post Announcement</span></button>
+    </div>
+  </div>
+
+  <!-- Role Creator -->
+  <div id="m-role" class="modal hidden">
+    <div class="modal-head"><h2 id="role-modal-title"><i class="fa fa-tag"></i> Create Role</h2><button class="modal-x" onclick="closeModal()"><i class="fa fa-xmark"></i></button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Role Name</label><div class="field-wrap"><input type="text" id="role-name" placeholder="e.g. moderator"></div></div>
+      <div class="form-group"><label>Role Color</label>
+        <div style="display:flex;gap:10px;align-items:center">
+          <input type="color" id="role-color" value="#22c55e" style="width:48px;height:40px;border:none;background:none;cursor:pointer">
+          <input type="text" id="role-color-hex" class="field-wrap" placeholder="#22c55e" style="flex:1" oninput="syncColorFromHex(this.value)">
+        </div>
+        <div class="color-swatches" id="color-swatches"></div>
+      </div>
+      <div class="form-group">
+        <label>Icon <span style="color:var(--text-muted);font-weight:400">(Font Awesome class)</span></label>
+        <div class="field-wrap"><i class="fa fa-icons"></i><input type="text" id="role-icon" placeholder="fa-solid fa-star" oninput="previewRoleIcon(this.value)"></div>
+        <div class="icon-preview" id="icon-preview"><i class="fa-solid fa-star"></i> Preview</div>
+        <div class="icon-suggestions">
+          <span onclick="setIcon('fa-solid fa-star')"><i class="fa-solid fa-star"></i></span>
+          <span onclick="setIcon('fa-solid fa-fire')"><i class="fa-solid fa-fire"></i></span>
+          <span onclick="setIcon('fa-solid fa-bolt')"><i class="fa-solid fa-bolt"></i></span>
+          <span onclick="setIcon('fa-solid fa-gem')"><i class="fa-solid fa-gem"></i></span>
+          <span onclick="setIcon('fa-solid fa-crown')"><i class="fa-solid fa-crown"></i></span>
+          <span onclick="setIcon('fa-solid fa-shield-halved')"><i class="fa-solid fa-shield-halved"></i></span>
+          <span onclick="setIcon('fa-solid fa-hammer')"><i class="fa-solid fa-hammer"></i></span>
+          <span onclick="setIcon('fa-solid fa-pen')"><i class="fa-solid fa-pen"></i></span>
+          <span onclick="setIcon('fa-solid fa-eye')"><i class="fa-solid fa-eye"></i></span>
+          <span onclick="setIcon('fa-solid fa-hippo')"><i class="fa-solid fa-hippo"></i></span>
+          <span onclick="setIcon('fa-solid fa-dragon')"><i class="fa-solid fa-dragon"></i></span>
+          <span onclick="setIcon('fa-solid fa-cat')"><i class="fa-solid fa-cat"></i></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Permissions</label>
+        <div class="permissions-grid" id="permissions-grid"></div>
+      </div>
+      <button class="btn-primary full mt-12" onclick="submitRole()"><i class="fa fa-check"></i> <span id="role-submit-label">Create Role</span></button>
+    </div>
+  </div>
+
+  <!-- Confirm -->
+  <div id="m-confirm" class="modal hidden">
+    <div class="modal-head"><h2 id="confirm-title">Confirm</h2><button class="modal-x" onclick="closeModal()"><i class="fa fa-xmark"></i></button></div>
+    <div class="modal-body">
+      <p id="confirm-msg" style="color:var(--text-secondary);line-height:1.6"></p>
+      <div class="confirm-btns">
+        <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+        <button class="btn-danger" id="confirm-ok">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div id="toast-wrap" role="status" aria-live="polite" aria-atomic="false"></div>
+
+<!-- SWIPE REPLY INDICATOR -->
+<div id="swipe-hint" class="swipe-hint hidden" aria-hidden="true"><i class="fa fa-reply"></i></div>
+
+<!-- ── Scripts (deferred for performance) ─────────────────── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js" defer></script>
+<script src="js/fixes.js" defer></script>
+<script src="js/error-handler.js" defer></script>
+<script src="js/bindings.js" defer></script>
+<script src="js/validation.js" defer></script>
+<script src="js/api.js" defer></script>
+<script src="js/state.js" defer></script>
+<script src="js/ui.js" defer></script>
+<script src="js/socket-client.js" defer></script>
+<script src="js/auth.js" defer></script>
+<script src="js/chat.js" defer></script>
+<script src="js/global.js" defer></script>
+<script src="js/friends.js" defer></script>
+<script src="js/announcements.js" defer></script>
+<script src="js/sage.js" defer></script>
+<script src="js/settings.js" defer></script>
+<script src="js/admin.js" defer></script>
+<script src="js/swipe.js" defer></script>
+<script src="js/app.js" defer></script>
+
+<!-- Theme color sync for light mode -->
+<script>
+  (function() {
+    const theme = localStorage.getItem('kc_theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', theme);
+    const meta = document.getElementById('theme-color-meta');
+    if (meta) meta.content = theme === 'light' ? '#ffffff' : '#0a0a0a';
+  })();
+</script>
+</body>
+</html>

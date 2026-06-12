@@ -1,0 +1,12 @@
+{
+  "name": "katchat",
+  "version": "2.0.0",
+  "description": "KatChat — Premium Real-Time Chat App",
+  "scripts": {
+    "start": "cd backend && npm start",
+    "dev": "cd backend && npm run dev",
+    "install-deps": "cd backend && npm install"
+  },
+  "keywords": ["chat", "realtime", "socketio", "supabase", "ai"],
+  "license": "MIT"
+}

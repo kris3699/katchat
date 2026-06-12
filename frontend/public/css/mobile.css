@@ -1,0 +1,301 @@
+/* ===== MOBILE-FIRST RESPONSIVE ===== */
+
+/* Mobile: sidebar takes full width, slides over main */
+@media (max-width: 768px) {
+  :root {
+    --topbar-h: 56px;
+    --bottomnav-h: 60px;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    position: fixed;
+    top: var(--topbar-h);
+    left: 0;
+    bottom: var(--bottomnav-h);
+    width: 100% !important;
+    min-width: unset !important;
+    z-index: 50;
+    transform: translateX(0);
+    transition: transform .3s cubic-bezier(.4,0,.2,1);
+  }
+  .sidebar.hidden-mobile {
+    transform: translateX(-100%);
+    display: flex !important; /* keep in DOM for transitions */
+  }
+  .main-area {
+    width: 100%;
+  }
+  .app-body {
+    position: relative;
+  }
+
+  /* ── Back button always visible ── */
+  .back-btn {
+    display: flex !important;
+  }
+
+  /* ── Topbar ── */
+  .topbar {
+    padding: 0 12px;
+  }
+  .topbar-name {
+    font-size: 16px;
+  }
+  .sage-btn {
+    padding: 0 9px;
+    height: 32px;
+  }
+  .topbar-av {
+    width: 32px;
+    height: 32px;
+  }
+
+  /* ── Chat header ── */
+  .chat-header {
+    padding: 0 10px;
+    height: 54px;
+    gap: 8px;
+  }
+  .ch-name {
+    font-size: 14px;
+  }
+
+  /* ── Bottom nav ── */
+  .bottom-nav {
+    height: var(--bottomnav-h);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .nav-btn {
+    font-size: 9px;
+  }
+  .nav-btn i {
+    font-size: 17px;
+  }
+
+  /* ── Input bar ── */
+  .input-bar {
+    padding: 8px 10px;
+    gap: 6px;
+  }
+  .input-grow {
+    padding: 8px 12px;
+  }
+  .input-grow textarea {
+    font-size: 15px; /* prevent iOS zoom */
+  }
+  .send-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 13px;
+  }
+
+  /* ── Messages ── */
+  .msgs-wrap {
+    padding: 10px 8px;
+  }
+  .bubble {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+  .msg-body {
+    max-width: 82%;
+  }
+  .msg-actions {
+    display: flex !important; /* always show on mobile */
+  }
+  .mac-btn {
+    width: 26px;
+    height: 26px;
+    font-size: 11px;
+  }
+  /* Sage message actions always visible on mobile */
+  .sage-msg-actions {
+    display: flex !important;
+  }
+  .sage-msg-body {
+    max-width: 84%;
+  }
+
+  /* ── Auth ── */
+  .auth-card {
+    padding: 24px 18px;
+    border-radius: 16px;
+  }
+  .auth-title {
+    font-size: 20px;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  .gender-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* ── Settings ── */
+  .settings-scroll {
+    padding: 12px;
+  }
+  .settings-hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 16px;
+    gap: 14px;
+  }
+  .settings-hero-info {
+    align-items: center;
+  }
+  .sh-name {
+    font-size: 18px;
+  }
+  .settings-card {
+    padding: 16px;
+  }
+
+  /* ── Modal ── */
+  .overlay {
+    padding: 10px;
+    align-items: flex-end;
+  }
+  .modal {
+    max-height: 92vh;
+    border-radius: 20px 20px 0 0;
+    width: 100%;
+    max-width: 100%;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  /* ── Sidebar search & tabs full width ── */
+  .sidebar-search {
+    padding: 10px;
+  }
+  .sidebar-quick {
+    padding: 8px 10px;
+  }
+  .quick-btn {
+    font-size: 11px;
+    padding: 7px;
+  }
+
+  /* ── Announcements ── */
+  .ann-container {
+    padding: 10px;
+    gap: 10px;
+  }
+  .ann-card-body {
+    padding: 14px;
+  }
+  .ann-card-title {
+    font-size: 16px;
+  }
+
+  /* ── Admin ── */
+  .admin-panel-section {
+    padding: 10px;
+  }
+  .admin-row {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .ar-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  /* ── Profile modal ── */
+  .profile-card {
+    gap: 8px;
+  }
+
+  /* ── Toast ── */
+  #toast-wrap {
+    bottom: calc(var(--bottomnav-h) + 8px);
+    right: 10px;
+    left: 10px;
+  }
+  .toast {
+    max-width: 100%;
+  }
+
+  /* ── Avatar positioning fix ── */
+  .av.xl {
+    width: 72px;
+    height: 72px;
+    font-size: 28px;
+  }
+  .settings-av-wrap .av.xl {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* ── Permissions grid ── */
+  .permissions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* ── Sage ── */
+  .sage-welcome {
+    padding: 32px 16px;
+  }
+  .sage-chips {
+    gap: 6px;
+  }
+  .sage-chip {
+    padding: 7px 12px;
+    font-size: 11px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  :root { --sidebar-w: 260px; }
+  .sidebar {
+    display: flex !important;
+  }
+  .back-btn {
+    display: none !important;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  .sidebar {
+    display: flex !important;
+  }
+  .back-btn {
+    display: none !important;
+  }
+  .sage-btn-label {
+    display: block;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 360px) {
+  .form-row, .gender-grid {
+    grid-template-columns: 1fr;
+  }
+  .bubble {
+    font-size: 13px;
+  }
+  .msg-body {
+    max-width: 88%;
+  }
+  .topbar-name {
+    display: none;
+  }
+}
+
+/* Safe area for notched phones */
+@supports (padding: max(0px)) {
+  .bottom-nav {
+    padding-bottom: max(env(safe-area-inset-bottom), 0px);
+    height: calc(var(--bottomnav-h) + env(safe-area-inset-bottom, 0px));
+  }
+  .app-body {
+    height: calc(100vh - var(--topbar-h) - var(--bottomnav-h) - env(safe-area-inset-bottom, 0px));
+  }
+}
